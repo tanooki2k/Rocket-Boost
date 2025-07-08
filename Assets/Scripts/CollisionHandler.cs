@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision other)
+    void OnCollisionEnter(Collision other)
     {
         switch (other.gameObject.tag)
         {
@@ -11,10 +11,7 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("Everything is looking good!");
                 break;
             case "Finish":
-                Debug.Log("You're all done, welcome to our country!");
-                break;
-            case "Fuel":
-                Debug.Log("Why did you pick me up? I'm not in this game!");
+                LoadNextLevel();
                 break;
             default:
                 ReloadLevel();
@@ -22,7 +19,15 @@ public class CollisionHandler : MonoBehaviour
         }
     }
 
-    private static void ReloadLevel()
+    void LoadNextLevel()
+    {
+        int currentScene = SceneManager.GetActiveScene().buildIndex;
+        int nextScene = (currentScene + 1) % SceneManager.sceneCountInBuildSettings;
+
+        SceneManager.LoadScene(nextScene);
+    }
+
+    void ReloadLevel()
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentScene);
