@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class Movement : MonoBehaviour
 {
@@ -7,8 +8,12 @@ public class Movement : MonoBehaviour
     [SerializeField] InputAction rotation;
     [SerializeField] float thrustStrength = 100f;
     [SerializeField] private float rotationStrength = 100f;
-    [SerializeField] private AudioClip mainEngine;
-    
+    [SerializeField] private AudioClip mainEngineSFX;
+    [SerializeField] private ParticleSystem mainEngineParticle;
+    [SerializeField] private ParticleSystem rightThrustParticle;
+    [SerializeField] private ParticleSystem leftThrustParticle;
+
+
     Rigidbody _rb;
     AudioSource _audioSource;
 
@@ -17,7 +22,7 @@ public class Movement : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
     }
-    
+
     private void OnEnable()
     {
         thrust.Enable();
@@ -37,12 +42,18 @@ public class Movement : MonoBehaviour
             _rb.AddRelativeForce(Vector3.up * (Time.fixedDeltaTime * thrustStrength));
             if (!_audioSource.isPlaying)
             {
-                _audioSource.PlayOneShot(mainEngine);
+                _audioSource.PlayOneShot(mainEngineSFX);
+            }
+
+            if (!mainEngineParticle.isPlaying)
+            {
+                mainEngineParticle.Play();
             }
         }
         else
         {
             _audioSource.Stop();
+            mainEngineParticle.Stop();
         }
     }
 
@@ -53,10 +64,25 @@ public class Movement : MonoBehaviour
         if (rotationInput < 0)
         {
             ApplyRotation(rotationStrength);
+            if (!rightThrustParticle.isPlaying)
+            {
+                leftThrustParticle.Stop();
+                rightThrustParticle.Play();
+            }
         }
         else if (rotationInput > 0)
         {
             ApplyRotation(-rotationStrength);
+            if (!leftThrustParticle.isPlaying)
+            {
+                rightThrustParticle.Stop();
+                leftThrustParticle.Play();
+            }
+        }
+        else
+        {
+            rightThrustParticle.Stop();
+            leftThrustParticle.Stop();
         }
     }
 
