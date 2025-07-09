@@ -171,6 +171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelLoadDelay: 3
+  success: {fileID: 8300000, guid: 8845308010124394891efa072cc3e5cd, type: 3}
+  crash: {fileID: 8300000, guid: fb1bd7dbca6c48e4b86f93b20f45947d, type: 3}
 --- !u!65 &7999282664891611965
 BoxCollider:
   m_ObjectHideFlags: 0
