@@ -39,51 +39,50 @@ public class Movement : MonoBehaviour
     {
         if (thrust.IsPressed())
         {
-            _rb.AddRelativeForce(Vector3.up * (Time.fixedDeltaTime * thrustStrength));
-            if (!_audioSource.isPlaying)
-            {
-                _audioSource.PlayOneShot(mainEngineSFX);
-            }
-
-            if (!mainEngineParticle.isPlaying)
-            {
-                mainEngineParticle.Play();
-            }
+            StartThrusting();
         }
         else
         {
-            _audioSource.Stop();
-            mainEngineParticle.Stop();
+            StopThrusting();
         }
     }
 
     private void ProcessRotation()
     {
         float rotationInput = rotation.ReadValue<float>();
-
         if (rotationInput < 0)
         {
-            ApplyRotation(rotationStrength);
-            if (!rightThrustParticle.isPlaying)
-            {
-                leftThrustParticle.Stop();
-                rightThrustParticle.Play();
-            }
+            RotateRight();
         }
         else if (rotationInput > 0)
         {
-            ApplyRotation(-rotationStrength);
-            if (!leftThrustParticle.isPlaying)
-            {
-                rightThrustParticle.Stop();
-                leftThrustParticle.Play();
-            }
+            RotateLeft();
         }
         else
         {
-            rightThrustParticle.Stop();
-            leftThrustParticle.Stop();
+            StopRotating();
         }
+    }
+
+    private void StartThrusting()
+    {
+        _rb.AddRelativeForce(Vector3.up * (Time.fixedDeltaTime * thrustStrength));
+            
+        if (!_audioSource.isPlaying)
+        {
+            _audioSource.PlayOneShot(mainEngineSFX);
+        }
+            
+        if (!mainEngineParticle.isPlaying)
+        {
+            mainEngineParticle.Play();
+        }
+    }
+    
+    private void StopThrusting()
+    {
+        _audioSource.Stop();
+        mainEngineParticle.Stop();
     }
 
     private void ApplyRotation(float rotationThisFrame)
@@ -91,5 +90,31 @@ public class Movement : MonoBehaviour
         _rb.freezeRotation = true;
         transform.Rotate(Vector3.forward * (Time.fixedDeltaTime * rotationThisFrame));
         _rb.freezeRotation = false;
+    }
+
+    private void RotateRight()
+    {
+        ApplyRotation(rotationStrength);
+        if (!rightThrustParticle.isPlaying)
+        {
+            leftThrustParticle.Stop();
+            rightThrustParticle.Play();
+        }
+    }
+
+    private void RotateLeft()
+    {
+        ApplyRotation(-rotationStrength);
+        if (!leftThrustParticle.isPlaying)
+        {
+            rightThrustParticle.Stop();
+            leftThrustParticle.Play();
+        }
+    }
+
+    private void StopRotating()
+    {
+        rightThrustParticle.Stop();
+        leftThrustParticle.Stop();
     }
 }
