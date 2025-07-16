@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84674b987af2e1849bc365c040b88b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelLoadDelay: 3
+  levelLoadDelay: 2
   successSFX: {fileID: 8300000, guid: 8845308010124394891efa072cc3e5cd, type: 3}
   crashSFX: {fileID: 8300000, guid: fb1bd7dbca6c48e4b86f93b20f45947d, type: 3}
   successParticle: {fileID: 6441552229069197360}
