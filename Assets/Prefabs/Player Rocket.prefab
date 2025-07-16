@@ -185,6 +185,7 @@ MonoBehaviour:
   crashSFX: {fileID: 8300000, guid: fb1bd7dbca6c48e4b86f93b20f45947d, type: 3}
   successParticle: {fileID: 6441552229069197360}
   crashParticle: {fileID: 7780540995436230773}
+  bounceMultiplier: 2000
 --- !u!65 &7999282664891611965
 BoxCollider:
   m_ObjectHideFlags: 0

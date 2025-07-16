@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,7 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] private AudioClip crashSFX;
     [SerializeField] private ParticleSystem successParticle;
     [SerializeField] private ParticleSystem crashParticle;
+    [SerializeField] [Range(100, 5000)] private float bounceMultiplier;
 
     private AudioSource _audioSource;
 
@@ -38,9 +40,25 @@ public class CollisionHandler : MonoBehaviour
                 StartSuccessSequence();
                 break;
             default:
-                StartCrashSequence();
+                var reactionVector = GetReactionVector(other);
+                StartCrashSequence(reactionVector);
                 break;
         }
+    }
+
+    private static Vector3 GetReactionVector(Collision other)
+    {
+        Vector3 reactionVector = Vector3.zero;
+        if (other.contacts.Length > 0)
+        {
+            ContactPoint contact = other.contacts[0];
+            Vector3 collisionNormal = contact.normal;
+
+            // The reaction vector is the opposite of the collision normal
+            reactionVector = -collisionNormal;
+        }
+
+        return reactionVector;
     }
 
     private void RespondToDebugKeys()
@@ -55,24 +73,38 @@ public class CollisionHandler : MonoBehaviour
         }
     }
     
-    private void StartCrashSequence()
+    private void StartCrashSequence(Vector3 reactionCollisionVector)
     {
-        _isControllable = false;
-        _audioSource.Stop();
-        _audioSource.PlayOneShot(crashSFX);
-        crashParticle.Play();
-        GetComponent<Movement>().enabled = false;
+        DisableGameplay();
+        StartCrashEffects();
+        GetComponent<Rigidbody>().AddForce(bounceMultiplier * reactionCollisionVector);
         Invoke("ReloadLevel", levelLoadDelay);
     }
-    
+
     private void StartSuccessSequence()
+    {
+        DisableGameplay();
+        StartSuccessEffects();
+        Invoke("LoadNextLevel", levelLoadDelay);
+    }
+
+    private void DisableGameplay()
     {
         _isControllable = false;
         _audioSource.Stop();
+        GetComponent<Movement>().enabled = false;
+    }
+
+    private void StartCrashEffects()
+    {
+        _audioSource.PlayOneShot(crashSFX);
+        crashParticle.Play();
+    }
+
+    private void StartSuccessEffects()
+    {
         _audioSource.PlayOneShot(successSFX);
         successParticle.Play();
-        GetComponent<Movement>().enabled = false;
-        Invoke("LoadNextLevel", levelLoadDelay);
     }
 
     void ReloadLevel()
