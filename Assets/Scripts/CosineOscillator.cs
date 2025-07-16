@@ -24,8 +24,8 @@ public class CosineOscillator : MonoBehaviour
         
         _rawCosineFactor = -Mathf.Cos(_cycles * MathTau + phase);
         _cosineAdjustmentFactor = (_rawCosineFactor + 1) * 1/2;
+        
         _movementFactor = movementVector * _cosineAdjustmentFactor;
-
         transform.position = _startPosition + _movementFactor;
     }
 }
