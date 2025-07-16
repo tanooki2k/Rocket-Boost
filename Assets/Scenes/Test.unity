@@ -432,7 +432,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1450313483844560082, guid: 453fe7dd272884c4196b6de3e68176eb, type: 3}
       propertyPath: m_Name
-      value: Rover_01_Neutral (1)
+      value: Moving Rover (1)
       objectReference: {fileID: 0}
     - target: {fileID: 2264005223480819304, guid: 453fe7dd272884c4196b6de3e68176eb, type: 3}
       propertyPath: m_LocalScale.x
@@ -788,7 +788,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1450313483844560082, guid: 453fe7dd272884c4196b6de3e68176eb, type: 3}
       propertyPath: m_Name
-      value: Rover_01_Neutral
+      value: Moving Rover
       objectReference: {fileID: 0}
     - target: {fileID: 2264005223480819304, guid: 453fe7dd272884c4196b6de3e68176eb, type: 3}
       propertyPath: m_LocalScale.x
