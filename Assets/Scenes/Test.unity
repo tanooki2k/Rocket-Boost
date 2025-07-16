@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementVector: {x: -40, y: 0, z: 0}
-  speed: 4
+  speed: 16
 --- !u!1001 &573770545
 PrefabInstance:
   m_ObjectHideFlags: 0
