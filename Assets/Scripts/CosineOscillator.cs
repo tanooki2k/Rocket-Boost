@@ -4,7 +4,9 @@ public class CosineOscillator : MonoBehaviour
 {
     [SerializeField] private Vector3 movementVector;
     [SerializeField] private float period;
-    [SerializeField] [Range(0, 2 * Mathf.PI)] private float phase;
+
+    [SerializeField] [Range(0, 2 * Mathf.PI)]
+    private float phase;
 
     private Vector3 _startPosition;
     private Vector3 _movementFactor;
@@ -21,10 +23,10 @@ public class CosineOscillator : MonoBehaviour
     void Update()
     {
         _cycles = Time.time / period;
-        
+
         _rawCosineFactor = -Mathf.Cos(_cycles * MathTau + phase);
-        _cosineAdjustmentFactor = (_rawCosineFactor + 1) * 1/2;
-        
+        _cosineAdjustmentFactor = (_rawCosineFactor + 1) / 2;
+
         _movementFactor = movementVector * _cosineAdjustmentFactor;
         transform.position = _startPosition + _movementFactor;
     }
