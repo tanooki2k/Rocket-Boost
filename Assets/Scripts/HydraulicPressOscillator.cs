@@ -1,16 +1,22 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
+public class OscillationManager : MonoBehaviour
+{
+    public static float GlobalTime => Time.timeSinceLevelLoad;
+}
+
 public class HydraulicPressOscillator : MonoBehaviour
 {
     [SerializeField] private Vector3 movementVector;
     [SerializeField] private float period;
 
-    [SerializeField] [Range(0, 360)]
-    private float phase;
+    [SerializeField] [Range(0, 360)] private float phase;
 
     [SerializeField] [Range(0f, 5f)] private float timeToWaitMinima;
-    [FormerlySerializedAs("timeToWait")] [SerializeField] [Range(0f, 5f)] private float timeToWaitMaxima;
+
+    [FormerlySerializedAs("timeToWait")] [SerializeField] [Range(0f, 5f)]
+    private float timeToWaitMaxima;
 
     private Vector3 _startPosition;
     private Vector3 _movementFactor;
@@ -33,9 +39,12 @@ public class HydraulicPressOscillator : MonoBehaviour
 
     void Update()
     {
-        if (Time.time - _startTImer < _timeToWait) { return; }
-        
-        _cycles = (Time.time - (_startTImer + _timeToWait)) / period;
+        if (OscillationManager.GlobalTime - _startTImer < _timeToWait)
+        {
+            return;
+        }
+
+        _cycles = (OscillationManager.GlobalTime - (_startTImer + _timeToWait)) / period;
 
         _rawCosineFactor = -Mathf.Cos(_cycles * MathTau - (_phaseRad + _angleCompensation));
         _cosineAdjustmentFactor = (_rawCosineFactor + 1) / 2;
@@ -47,17 +56,17 @@ public class HydraulicPressOscillator : MonoBehaviour
         {
             if (_freeze)
             {
-                _startTImer = Time.time;
+                _startTImer = OscillationManager.GlobalTime;
                 _freeze = false;
 
                 if (_cosineAdjustmentFactor < Epsilon)
                 {
-                    _angleCompensation = -phase;
+                    _angleCompensation = -_phaseRad;
                     _timeToWait = timeToWaitMinima;
                 }
                 else
                 {
-                    _angleCompensation = Mathf.PI - phase;
+                    _angleCompensation = Mathf.PI - _phaseRad;
                     _timeToWait = timeToWaitMaxima;
                 }
             }

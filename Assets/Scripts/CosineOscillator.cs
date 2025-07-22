@@ -22,7 +22,7 @@ public class CosineOscillator : MonoBehaviour
 
     void Update()
     {
-        _cycles = Time.time / period;
+        _cycles = OscillationManager.GlobalTime / period;
 
         _rawCosineFactor = -Mathf.Cos(_cycles * MathTau + phase);
         _cosineAdjustmentFactor = (_rawCosineFactor + 1) / 2;
