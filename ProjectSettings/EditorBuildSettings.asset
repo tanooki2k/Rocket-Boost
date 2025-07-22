@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Tutorial.unity
     guid: c0d5b182d4ca1eb4ea8747042e093d1c
   - enabled: 0
-    path: Assets/Scenes/Level 1 Layout.unity
+    path: Assets/Scenes/Hydraulic Press.unity
     guid: 8500e02c7df259546b6ba8b23a64b19e
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
